@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import pkg_resources
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +31,16 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
+def load_plugins(identifier):
+    plugins = []
+    for ep in pkg_resources.iter_entry_points(group=identifier):
+        plugins.append(str(ep).split('=')[1].strip())
+    return plugins
+
+
+PLUGINS = set(load_plugins('INSTALLED_APPS.load'))
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + list(PLUGINS)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
