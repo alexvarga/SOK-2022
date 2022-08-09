@@ -10,7 +10,7 @@ setup(
         'INSTALLED_APPS.load':
             ['Config=core.apps.CoreConfig'],
         'URL.load':
-            ['Url=core', 'Path=Core.urls']
+            ['Url=core', 'Path=core.urls']
     },
 
     zip_safe=False
