@@ -8,5 +8,5 @@ from .services.source_from_html import LoadHtmlSource
 def index(request):
 
     a = LoadHtmlSource()
-    a.parseHTML()
+    a.parse()
     return redirect('../../core')

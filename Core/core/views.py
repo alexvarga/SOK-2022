@@ -20,9 +20,12 @@ def upload(request):
     form = UploadForm()
     if request.method == "POST":
         form = UploadForm(request.POST, request.FILES)
+        name = request.FILES['file'].name
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
-            return HttpResponse("FILE UPLOADED SUCCESSFULLY")
+            for item in plugins:
+                item.parse('upload-'+name)
+            return HttpResponse("go to visualization")
         else:
             form = UploadForm()
-    return render(request, 'blog/home.html', {'form': form})
+    return render(request, 'core/index.html', {'form': form})
