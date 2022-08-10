@@ -1,5 +1,5 @@
 from lxml import html as h
-from ..models import Node, Attribute
+from ..models import Node, Attribute, Link
 
 class LoadHtmlSource:
 
@@ -14,6 +14,8 @@ class LoadHtmlSource:
 
         saveNode = Node(label=tree.tag)
         saveNode.save()
+
+
 
         while True:
             newNodes = []
@@ -35,6 +37,17 @@ class LoadHtmlSource:
 
                 if len(node) > 0:
                     for child in node:
+                        linkLabel=node.tag+ " + " +child.tag
+                        link = Link(label=linkLabel)
+                        link.parent_node=ns
+
+                        cn=Node(label=child.tag)
+                        cn.save()
+
+                        link.child_node=cn
+
+                        link.save()
+
                         newNodes.append(child)
             nodes = newNodes
 
