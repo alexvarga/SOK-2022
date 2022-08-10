@@ -1,5 +1,5 @@
 from lxml import html as h
-from ..models import Node
+from ..models import Node, Attribute
 
 class LoadHtmlSource:
 
@@ -27,7 +27,10 @@ class LoadHtmlSource:
 
                 if node.attrib !={}:
                     for key in node.attrib.keys():
-                        print('node text:', node.text, node.tag, '| attributes', key, ':', node.attrib[key] )
+                        att = Attribute(name=key, value=node.attrib[key])
+                        att.save()
+                        ns.attributes.add(att)
+                    ns.save()
 
 
                 if len(node) > 0:
