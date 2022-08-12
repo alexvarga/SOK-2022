@@ -13,6 +13,11 @@ def index(request):
     form = UploadForm()
     return render(request, 'core/index.html', {'source_plugins': plugins, 'form': form})
 
+def test(request):
+    plugins = apps.get_app_config('core').source_plugins
+    return render(request, 'core/test.html', {})
+
+
 
 def upload(request):
     plugins = apps.get_app_config('core').source_plugins
