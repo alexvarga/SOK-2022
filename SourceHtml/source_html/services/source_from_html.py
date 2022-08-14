@@ -52,22 +52,6 @@ class LoadHtmlSource:
                         newNodes.append(child)
             nodes = newNodes
 
-    def create_dict_nodes(self, nodes):
-        tree_child = {}
-        for node in nodes:
-            children_links = Link.objects.filter(parent_node=node)
-            children = []
-            for child_link in children_links:
-                children.append(child_link.child_node)
-            # print(child_link.child_node)
-            # print(child_link.child_node.id)
-
-            tree_child[node] = self.create_dict_nodes(children)
-
-        return tree_child
-
-
-
     def my_to_json(self, all_nodes):
         stringNodes = self.nodeKeys(all_nodes)
         links = {}
@@ -88,44 +72,15 @@ class LoadHtmlSource:
                         print("hello", links[key2])
                         links2[key2].append(links[key])
 
-        links3=links.copy()
-
+        links3 = links.copy()
 
         for key in links:
             for k in links:
                 if key in links[k]:
                     links3.pop(key)
 
-
-
-
-
         for key in enumerate(links3):
             print(key)
 
-
-
-
         return json.dumps(links3)
 
-    def getTree(self):
-        root = Node.objects.all()
-        print("root ", root[0])
-        tree = {}
-        children_links = Link.objects.filter(parent_node=root[0])
-        children = []
-        for child_link in children_links:
-            children.append(child_link.child_node)
-        # print(child_link.child_node)
-
-        tree[root[0]] = self.create_dict_nodes(children)
-        return tree
-
-
-
-
-    def nodeKeys(self, nodes):
-        result = []
-        for node in nodes:
-            result.append(str(node.id))
-        return result
