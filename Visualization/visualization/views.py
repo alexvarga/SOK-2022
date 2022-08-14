@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.apps.registry import apps
 from django.http import HttpResponse
 from .services.visualize import Visualization
-from source_html.models import Node, Link, Attribute
+from core.models import Node, Link, Attribute
 
 
 # Create your views here.

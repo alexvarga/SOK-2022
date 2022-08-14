@@ -1,5 +1,5 @@
 from lxml import html as h
-from ..models import Node, Attribute, Link
+from core.models import Node, Attribute, Link
 import json
 from django.core import serializers
 
@@ -8,8 +8,14 @@ class LoadHtmlSource:
 
     def parse(self, filename):
 
-        Node.objects.all().delete()
-        Attribute.objects.all().delete()
+        try:
+            Node.objects.all().delete()
+        except:
+            print("nemam")
+        try:
+            Attribute.objects.all().delete()
+        except:
+            print("nothing to delete")
 
         # html = '<html><body this="asdf"><div class="super" test="super kul"><h1 class="super">Prvi naslov</h1><h2 class="super">drugi naslov</h2></div><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6</h6></body></html>'
         # tree = h.fromstring(html)

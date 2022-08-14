@@ -1,4 +1,4 @@
-from source_html.models import Node, Attribute, Link
+from core.models import Node, Attribute, Link
 
 
 class Visualization:
