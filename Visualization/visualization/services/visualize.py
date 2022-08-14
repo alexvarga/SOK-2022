@@ -3,6 +3,10 @@ from core.models import Node, Attribute, Link
 
 class Visualization:
 
+    def __init__(self):
+        self.name="Visual plugin"
+        self.location="visualization"
+
     def create_dict_nodes(self, nodes):
         tree_child = {}
         for node in nodes:

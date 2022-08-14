@@ -26,6 +26,6 @@ def layout(request):
     # print(all_nodes)
     print(root, "root")
 
-    return render(request, 'core/layout.html', {
+    return render(request, 'visualization/layout.html', {
          "root": root, "nodes": tree[root],
     })

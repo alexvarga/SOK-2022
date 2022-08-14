@@ -6,6 +6,10 @@ from django.core import serializers
 
 class LoadHtmlSource:
 
+    def __init__(self):
+        self.name="Html source plugin"
+        self.location="source_html"
+
     def parse(self, filename):
 
         try:
@@ -89,4 +93,3 @@ class LoadHtmlSource:
             print(key)
 
         return json.dumps(links3)
-
