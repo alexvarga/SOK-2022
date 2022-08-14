@@ -21,12 +21,35 @@ class LoadHtmlSource:
         # tree = h.fromstring(html)
         tree = h.parse('uploads/' + filename)
         root = tree.getroot()
-        nodes = root
+
         test = []
 
-        saveNode = Node(label=root.tag, complete=root)
-        saveNode.save()
-        # child here missing
+        n = Node(label=root.tag, complete=root)
+        n.save()
+
+
+
+        if root.attrib != {}:
+            for key in root.attrib.keys():
+                a = Attribute(name=key, value=root.attrib[key])
+                a.save()
+                n.attributes.add(a)
+            n.save()
+
+        if len(root) > 0:
+            # print("Node2  ", node)
+            for child in root:
+                linkLabel = root.tag + " + " + child.tag
+                link = Link(label=linkLabel)
+                link.parent_node = n
+                cn = Node(label=child.tag, complete=child)
+                cn.save()
+                link.child_node = cn
+                link.save()
+
+
+        nodes = root
+
         while True:
             newNodes = []
             if len(nodes) == 0:
@@ -89,4 +112,5 @@ class LoadHtmlSource:
             print(key)
 
         return json.dumps(links3)
+
 
