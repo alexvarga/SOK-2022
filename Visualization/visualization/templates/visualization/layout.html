@@ -4,7 +4,7 @@
 
         .node {
             cursor: pointer;
-            color: #3182bd;
+            color: #f5ffd0;
 
         }
 
@@ -141,7 +141,7 @@
             var sirina = 50;
 
             atributi.forEach(element => {
-                nova_sirina = (element.naziv.length + element.vrednost.length) * 6;
+                nova_sirina = (element.naziv.length + element.vrednost.length) * 6.5;
                 if (nova_sirina > sirina) {
                     sirina = nova_sirina;
                 }
@@ -160,21 +160,22 @@
 
             //Ubacivanje kvadrata
             d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0).attr('width', sirina).attr('height', visina)
-                .attr('fill', 'gray');
+                .attr('fill', '#f5ffd0')
+                .attr('stroke', "#3c43a6")
             //Ubacivanje naziva cvora
             d3.select("g#" + d.name).append('text').attr('x', sirina / 2).attr('y', 10)
                 .attr('text-anchor', 'middle')
                 .attr('font-size', textSize).attr('font-family', 'sans-serif')
-                .attr('fill', 'green').text(d.naziv);
+                .attr('fill', 'black').text(d.naziv);
 
-            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize).attr('x2', sirina).attr('y2', textSize)
-                .attr('stroke', 'black').attr('stroke-width', 2);
+            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize+5).attr('x2', sirina).attr('y2', textSize+5)
+                .attr('stroke', '#3c43a6').attr('stroke-width', 1);
 
             for (var i = 0; i < attributesNo; i++) {
-                d3.select("g#" + d.name).append('text').attr('x', 0).attr('y', 20 + i * textSize)
+                d3.select("g#" + d.name).append('text').attr('x', 0).attr('y', 25 + i * textSize)
                     .attr('text-anchor', 'start')
                     .attr('font-size', textSize).attr('font-family', 'sans-serif')
-                    .attr('fill', 'black').text(d.attrs[i].naziv + " = " + d.attrs[i].vrednost);
+                    .attr('fill', '#22164f').text(d.attrs[i].naziv + " = " + d.attrs[i].vrednost);
 
             }
 
