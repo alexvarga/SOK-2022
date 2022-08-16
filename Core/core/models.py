@@ -15,6 +15,7 @@ class Node(models.Model):
     complete = models.CharField(max_length=200)
     label = models.CharField(max_length=100)
     attributes = models.ManyToManyField(Attribute)
+    text = models.CharField(max_length=200, blank=True, default="")
 
     def __str__(self):
         return self.label

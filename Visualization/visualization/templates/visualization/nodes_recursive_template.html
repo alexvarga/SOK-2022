@@ -1,13 +1,16 @@
+{% for n,values2 in values.items %}
+    "node_{{ n.id }}":{name:"node_{{ n.id }}",naziv:"{{ n.label }}", text:"{{ n.text }}",
 
-        {%for n,values2 in values.items %}
-                "node_{{n.id}}":{name:"node_{{n.id}}",naziv:"{{n.label}}",
+    attrs:[
+    {% for a in n.attributes.all %}
+        {name: "attribute_{{ a.id }}", naziv: "{{ a.name }}", vrednost: "{{ a.value }}"},
+    {% endfor %}
 
-               attributes:[
-                ]
-                },
-              {%with values=values2 template_name="visualization/nodes_recursive_template.html" %}
-                   {%include template_name%}
-              {%endwith%}
-         {%endfor%}
+    ]
+    },
+    {% with values=values2 template_name="visualization/nodes_recursive_template.html" %}
+        {% include template_name %}
+    {% endwith %}
+{% endfor %}
 
         

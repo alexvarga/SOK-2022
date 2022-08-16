@@ -32,8 +32,8 @@
             {%if nodes.items%}
                 "node_{{root.id}}":
                     {
-                        name: "node_{{root.id}}", naziv: "{{root.label}}",
-                        attributes: [
+                        name: "node_{{root.id}}", naziv: "{{root.label}}", text: "{{root.text}}",
+                        attrs: [
                             {% for a in root.attributes.all %}
                                 {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
                             {% endfor %}
@@ -42,8 +42,8 @@
                 {% for n, values in nodes.items %}
                     "node_{{n.id}}": {
 
-                        name: "node_{{n.id}}", naziv: "{{n.label}}",
-                        attributes: [
+                        name: "node_{{n.id}}", naziv: "{{n.label}}", text: "{{ n.text }}",
+                        attrs: [
                             {% for a in n.attributes.all %}
                                 {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
                             {% endfor %}
@@ -108,6 +108,9 @@
             .enter().append('line')
             .attr('class', 'link');
 
+        function click_alert(element) {
+            alert("ID: " + element.id + " " + element.attributes.text.value);
+        }
 
         // add the nodes
         var node = svg.selectAll('.node')
@@ -117,8 +120,12 @@
             .attr('id', function (d) {
                 return d.name;
             })
+            .attr('text', function (d) {
+                return d.text;
 
-            .on('click', function () {
+            })
+            .on('click', function (d) {
+                click_alert(this)
 
             });
 
@@ -129,34 +136,45 @@
 
 
         function show(d) {
-            var attributesNo = d.attributes.length;
-            console.log(attributesNo)
-            var duzina = 100;
-            var textSize = 15;
+            var attributesNo = d.attrs.length;
+            var atributi = d.attrs
+            var sirina = 50;
 
-            if (attributesNo == 0) {
+            atributi.forEach(element => {
+                nova_sirina = (element.naziv.length + element.vrednost.length) * 6;
+                if (nova_sirina > sirina) {
+                    sirina = nova_sirina;
+                }
+
+            });
+
+            var textSize = 10;
+            var visina = 15;
+            if (attributesNo === 0) {
                 visina = 15;
             } else {
-                visina = attributesNo * textSize
+                visina = attributesNo * textSize + textSize
             }
             visina += textSize;
 
 
             //Ubacivanje kvadrata
-            d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0).attr('width', duzina).attr('height', visina)
+            d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0).attr('width', sirina).attr('height', visina)
                 .attr('fill', 'gray');
             //Ubacivanje naziva cvora
-            d3.select("g#" + d.name).append('text').attr('x', duzina / 2).attr('y', 10)
+            d3.select("g#" + d.name).append('text').attr('x', sirina / 2).attr('y', 10)
                 .attr('text-anchor', 'middle')
                 .attr('font-size', textSize).attr('font-family', 'sans-serif')
                 .attr('fill', 'green').text(d.naziv);
 
+            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize).attr('x2', sirina).attr('y2', textSize)
+                .attr('stroke', 'black').attr('stroke-width', 2);
+
             for (var i = 0; i < attributesNo; i++) {
-                //Ubacivanje naziva atributa=vrednost
                 d3.select("g#" + d.name).append('text').attr('x', 0).attr('y', 20 + i * textSize)
                     .attr('text-anchor', 'start')
                     .attr('font-size', textSize).attr('font-family', 'sans-serif')
-                    .attr('fill', 'black').text(d.attributes[i].naziv + " = " + d.attributes[i].vrednost);
+                    .attr('fill', 'black').text(d.attrs[i].naziv + " = " + d.attrs[i].vrednost);
 
             }
 
