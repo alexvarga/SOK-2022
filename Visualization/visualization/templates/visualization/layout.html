@@ -26,43 +26,65 @@
     </div>
 
     <script>
+
+
         var nodes = {
-            "node_{{root.id}}": {name: "node_{{root.id}}", naziv: "{{root.label}}"},
+        {%if nodes.items%}
+            "node_{{root.id}}":
+                {name: "node_{{root.id}}", naziv: "{{root.label}}",
+                attributes: [
+                        {% for a in root.attributes.all %}
+                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
+                        {% endfor %}
+                    ]},
             {% for n, values in nodes.items %}
-            "node_{{n.id}}": {
-
-                name: "node_{{n.id}}", naziv: "{{n.label}}",
-
-            },
-            {%for n,values2 in values.items %}
                 "node_{{n.id}}": {
-                    name: "node_{{n.id}}", naziv: "{{n.label}}", text: "{{n.text}}",
 
-
+                    name: "node_{{n.id}}", naziv: "{{n.label}}",
+                    attributes: [
+                        {% for a in n.attributes.all %}
+                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
+                        {% endfor %}
+                    ]
                 },
-            {% endfor %}
+                {%for n,values2 in values.items %}
+                    "node_{{n.id}}": {
+                        name: "node_{{n.id}}", naziv: "{{n.label}}",
+                        attributes: [
+                        {% for a in n.attributes.all %}
+                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
+                        {% endfor %}
+                    ]
+
+
+                    },
+                {% endfor %}
 
             {% endfor %}
+            {% endif %}
 
         };
+
+
+
 
         var links = [
             {% for n, values in nodes.items %}
                 {source: "node_{{root.id}}", target: "node_{{n.id}}"},
-        {%for n2,values2 in values.items %}
-          {source:"node_{{n.id}}",target:"node_{{n2.id}}"},
+                {%for n2,values2 in values.items %}
+                    {source: "node_{{n.id}}", target: "node_{{n2.id}}"},
 
-            {% endfor %}
+                {% endfor %}
             {% endfor %}
             {% for n,values in nodes.items %}
                 {source: "node_{{root.id}}", target: "node_{{n.id}}"},
-        {%for n2,values2 in values.items %}
-          {source:"node_{{n.id}}",target:"node_{{n2.id}}"},
-            {% endfor %}
+                {%for n2,values2 in values.items %}
+                    {source: "node_{{n.id}}", target: "node_{{n2.id}}"},
+                {% endfor %}
             {% endfor %}
         ];
+        console.log((links))
 
-        console.log(links, "ovo su linkovi")
 
         links.forEach(function (link) {
             link.source = nodes[link.source];
@@ -122,10 +144,18 @@
 
 
         function show(d) {
+            var attributesNo = d.attributes.length;
+            console.log(attributesNo)
             var duzina = 100;
-            var textSize = 10;
-            var visina = 10;
+            var textSize = 15;
+
+            if (attributesNo==0){
+                visina=15;
+            }else{
+                visina=attributesNo*textSize
+            }
             visina += textSize;
+
 
             //Ubacivanje kvadrata
             d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0).attr('width', duzina).attr('height', visina)
@@ -135,6 +165,15 @@
                 .attr('text-anchor', 'middle')
                 .attr('font-size', textSize).attr('font-family', 'sans-serif')
                 .attr('fill', 'green').text(d.naziv);
+
+            for (var i = 0; i < attributesNo; i++) {
+                //Ubacivanje naziva atributa=vrednost
+                d3.select("g#" + d.name).append('text').attr('x', 0).attr('y', 20 + i * textSize)
+                    .attr('text-anchor', 'start')
+                    .attr('font-size', textSize).attr('font-family', 'sans-serif')
+                    .attr('fill', 'black').text(d.attributes[i].naziv + " = " + d.attributes[i].vrednost);
+
+            }
 
         }
 
@@ -163,4 +202,9 @@
 
 
     </script>
+
+
+
+
+
 {% endblock %}
