@@ -1,0 +1,8 @@
+
+        {%for n2,values2 in values.items %}
+          {source:"node_{{n.id}}",target:"node_{{n2.id}}"},
+          {%with values=values2 n=n2 template_name="visualization/linking_recursive.html" %}
+               {%include template_name%}
+          {%endwith%}
+        {%endfor%}
+        
