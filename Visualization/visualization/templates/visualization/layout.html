@@ -29,43 +29,32 @@
 
 
         var nodes = {
-        {%if nodes.items%}
-            "node_{{root.id}}":
-                {name: "node_{{root.id}}", naziv: "{{root.label}}",
-                attributes: [
-                        {% for a in root.attributes.all %}
-                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
-                        {% endfor %}
-                    ]},
-            {% for n, values in nodes.items %}
-                "node_{{n.id}}": {
-
-                    name: "node_{{n.id}}", naziv: "{{n.label}}",
-                    attributes: [
-                        {% for a in n.attributes.all %}
-                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
-                        {% endfor %}
-                    ]
-                },
-                {%for n,values2 in values.items %}
+            {%if nodes.items%}
+                "node_{{root.id}}":
+                    {
+                        name: "node_{{root.id}}", naziv: "{{root.label}}",
+                        attributes: [
+                            {% for a in root.attributes.all %}
+                                {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
+                            {% endfor %}
+                        ]
+                    },
+                {% for n, values in nodes.items %}
                     "node_{{n.id}}": {
+
                         name: "node_{{n.id}}", naziv: "{{n.label}}",
                         attributes: [
-                        {% for a in n.attributes.all %}
-                            {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
-                        {% endfor %}
-                    ]
-
-
+                            {% for a in n.attributes.all %}
+                                {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},
+                            {% endfor %}
+                        ]
                     },
-                {% endfor %}
+                    {%include "visualization/nodes_recursive_template.html" %}
 
-            {% endfor %}
+                {% endfor %}
             {% endif %}
 
         };
-
-
 
 
         var links = [
@@ -98,7 +87,7 @@
             .links(links)
             .on("tick", tick)
             .linkDistance(300)
-            .charge(-100)
+            .charge(-1000)
             .start();
 
 
@@ -149,10 +138,10 @@
             var duzina = 100;
             var textSize = 15;
 
-            if (attributesNo==0){
-                visina=15;
-            }else{
-                visina=attributesNo*textSize
+            if (attributesNo == 0) {
+                visina = 15;
+            } else {
+                visina = attributesNo * textSize
             }
             visina += textSize;
 

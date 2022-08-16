@@ -1,0 +1,13 @@
+
+        {%for n,values2 in values.items %}
+                "node_{{n.id}}":{name:"node_{{n.id}}",naziv:"{{n.label}}",
+
+               attributes:[
+                ]
+                },
+              {%with values=values2 template_name="visualization/nodes_recursive_template.html" %}
+                   {%include template_name%}
+              {%endwith%}
+         {%endfor%}
+
+        
