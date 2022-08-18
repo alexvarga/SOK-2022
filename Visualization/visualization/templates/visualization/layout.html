@@ -19,6 +19,23 @@
 {% endblock %}
 {% block content %}
 
+    <form action="searchResults" method="POST" class="form-inline my-2 my-lg-2">
+        {% csrf_token %}
+    <div class="form-control">
+            <label for="id_search_node" class="form-label">Search nodes</label>
+
+            {% for field in searchForm %}
+
+                {{ field.errors }}
+                {{ field }}
+
+            {% endfor %}
+        <button class="btn btn-outline-success " type="submit">Search nodes</button>
+    </div>
+
+    </form>
+
+
     <div class="center">
         <svg id="force" width="800" height="800">
 
@@ -168,7 +185,7 @@
                 .attr('font-size', textSize).attr('font-family', 'sans-serif')
                 .attr('fill', 'black').text(d.naziv);
 
-            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize+5).attr('x2', sirina).attr('y2', textSize+5)
+            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize + 5).attr('x2', sirina).attr('y2', textSize + 5)
                 .attr('stroke', '#3c43a6').attr('stroke-width', 1);
 
             for (var i = 0; i < attributesNo; i++) {

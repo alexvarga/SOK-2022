@@ -1,0 +1,10 @@
+{#{% extends "core/base.html" %}#}
+
+{% block searchResults %}
+{% for r in results %}
+<p>{{ r.label }} {{ r.id }}</p>
+{% endfor %}
+
+
+
+{% endblock %}
