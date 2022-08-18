@@ -3,6 +3,8 @@
 {% block searchResults %}
 {% for r in results %}
 <p>{{ r.label }} {{ r.id }}</p>
+    <p>{{ r.text }}</p>
+    <a href="search?node={{ r.id }}">here</a>
 {% endfor %}
 
 

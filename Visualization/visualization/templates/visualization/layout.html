@@ -46,7 +46,8 @@
 
 
         var nodes = {
-            {%if nodes.items%}
+{#            {%if nodes.items%}#}
+
                 "node_{{root.id}}":
                     {
                         name: "node_{{root.id}}", naziv: "{{root.label}}", text: "{{root.text}}",
@@ -69,7 +70,21 @@
                     {%include "visualization/nodes_recursive_template.html" %}
 
                 {% endfor %}
-            {% endif %}
+{#                            {%else%}#}
+{#                {% for n in nodes %}#}
+{#                    "node_{{n.id}}": {#}
+{#                        name: "node_{{n.id}}", naziv: "{{n.label}}", text: "{{n.text}}",#}
+{##}
+{#                        attrs: [#}
+{#                            {% for a in n.attributes.all %}#}
+{#                                {name: "attribute_{{a.id}}", naziv: "{{a.name}}", vrednost: "{{a.value}}"},#}
+{#                            {% endfor %}#}
+{#                        ]#}
+{#                    },#}
+{##}
+{##}
+{#                {% endfor %}#}
+{#            {% endif %}#}
 
         };
 

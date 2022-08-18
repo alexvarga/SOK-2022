@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.apps.registry import apps
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.db.models import Q
 from .services.visualize import Visualization
 from core.models import Node, Link, Attribute
@@ -37,18 +37,23 @@ def layout(request):
 
 
 def search(request):
-
-    nodeId = 1609
+    node = request.GET['node']
+    print(node)
+    nodeId = node
     form = SearchForm()
     a = Visualization()
     plugins = apps.get_app_config('core').source_plugins
     all_nodes = Node.objects.all()
     links = Link.objects.all()
-    root = Node.objects.filter(pk=nodeId)[0]  # todo try except pls
+    try:
+        root = Node.objects.filter(pk=nodeId)[0]
+    except:
+        raise Http404
     tree = {}
     tree = a.getSearchTreeById(nodeId)
 
     print(root, "root")
+    print(tree[root], "tree[root]")
 
     return render(request, 'visualization/layout.html', {
         "root": root, "nodes": tree[root],"searchForm": form,
