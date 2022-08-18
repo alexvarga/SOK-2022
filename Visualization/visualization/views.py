@@ -37,7 +37,11 @@ def layout(request):
 
 
 def search(request):
-    node = request.GET['node']
+    try:
+        node = request.GET['node']
+    except:
+        raise Http404
+
     print(node)
     nodeId = node
     form = SearchForm()
