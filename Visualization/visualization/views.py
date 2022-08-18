@@ -29,3 +29,22 @@ def layout(request):
     return render(request, 'visualization/layout.html', {
          "root": root, "nodes": tree[root],
     })
+
+
+def search(request):
+    nodeId = 1579
+    a = Visualization()
+    plugins = apps.get_app_config('core').source_plugins
+    all_nodes = Node.objects.all()
+    links = Link.objects.all()
+    root = Node.objects.filter(pk=nodeId)[0] #todo try except pls
+    tree = {}
+    tree = a.getSearchTreeById(nodeId)
+
+
+    print(root, "root")
+
+    return render(request, 'visualization/layout.html', {
+         "root": root, "nodes": tree[root],
+    })
+
