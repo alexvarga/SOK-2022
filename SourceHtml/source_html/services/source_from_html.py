@@ -31,8 +31,6 @@ class LoadHtmlSource:
         n = Node(label=root.tag, complete=root)
         n.save()
 
-
-
         if root.attrib != {}:
             for key in root.attrib.keys():
                 a = Attribute(name=key, value=root.attrib[key])
@@ -41,19 +39,26 @@ class LoadHtmlSource:
             n.save()
 
         if len(root) > 0:
-            # print("Node2  ", node)
+
             for child in root:
                 linkLabel = root.tag + " + " + child.tag
                 link = Link(label=linkLabel)
                 link.parent_node = n
+
+
                 cn = Node(label=child.tag, complete=child)
+                if child.text != None and "\n" not in child.text:
+                    cn.text=child.text
+                    print(child.text)
+                else:
+                    cn.text=""
+
                 cn.save()
                 link.child_node = cn
                 link.save()
 
 
         nodes = root
-
         while True:
             newNodes = []
             if len(nodes) == 0:
@@ -63,7 +68,7 @@ class LoadHtmlSource:
                 try:  # is node already saved as someone's child
                     ns = Node.objects.get(complete=node)
                 except Node.DoesNotExist:
-                    ns = Node(label=node.tag, complete=node)
+                    ns = Node(label=node.tag, complete=node, text=node.text)
                     ns.save()
 
                 if node.attrib != {}:
@@ -79,6 +84,11 @@ class LoadHtmlSource:
                         link = Link(label=linkLabel)
                         link.parent_node = ns
                         cn = Node(label=child.tag, complete=child)
+                        if child.text != None and "\n" not in child.text:
+                            cn.text = child.text
+                            print(child.text)
+                        else:
+                            cn.text = ""
                         cn.save()
                         link.child_node = cn
                         link.save()
