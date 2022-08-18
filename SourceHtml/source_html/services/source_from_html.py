@@ -31,7 +31,12 @@ class LoadHtmlSource:
         n = Node(label=root.tag, complete=root)
         n.save()
 
-
+        if root.attrib != {}:
+            for key in root.attrib.keys():
+                a = Attribute(name=key, value=root.attrib[key])
+                a.save()
+                n.attributes.add(a)
+            n.save()
 
         if len(root) > 0:
             for child in root:
