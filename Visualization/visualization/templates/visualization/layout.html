@@ -17,8 +17,8 @@
     </style>
 
 {% endblock %}
-{% block content %}
 
+{% block searchBox %}
     <form action="searchResults" method="POST" class="form-inline my-2 my-lg-2">
         {% csrf_token %}
     <div class="form-control">
@@ -34,13 +34,18 @@
     </div>
 
     </form>
+{% endblock %}
 
 
+{% block  svgArea %}
     <div class="center">
         <svg id="force" width="800" height="800">
 
         </svg>
     </div>
+{% endblock %}
+
+{% block content %}
 
     <script>
 
@@ -239,7 +244,7 @@
 
     </script>
 
-
+    {% block simpleContent %}  {% include "visualization/simple.html" %} {% endblock %}
 
 
 
