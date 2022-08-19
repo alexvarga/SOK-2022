@@ -3,6 +3,15 @@
 
 {% block style %}
     <style>
+          div.scroll {
+        background-color: #fed9ff;
+        width: 600px;
+        height: 1000px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: center;
+        padding: 20px;
+      }
 
         {#.node {#}
         {#    cursor: pointer;#}
@@ -54,10 +63,10 @@
 {% endblock %}
 {% block content %}
 
-        <svg width="500" height="500">
-
-        </svg>
-    <div id="tree">
+{#        <svg width="500" height="500">#}
+{##}
+{#        </svg>#}
+    <div class="scroll" id="tree">
 
     </div>
 
@@ -123,13 +132,34 @@
     {#node.append('text')#}
     {#    .text(function(d){return d.naziv;})#}
 
+        function depthOfData(object, level){
+    // Returns an int of the deepest level of an object
+    level = level || 1;
+
+    var key;
+    for(key in object){
+        if (!object.hasOwnProperty(key)) continue;
+
+        if(typeof object[key] == 'children'){
+            level++;
+            level = depthOfData(object[key], level);
+        }
+    }
+
+    return level;
+
+}
+    const objectDepth = (o) => Object (o) === o ? 1 + Math .max (-1, ... Object.values(o).map(objectDepth)):0;
+
 
 
             //build tree
             function BuildVerticaLTree(treeData, treeContainerDom) {
+                var addHeight = (objectDepth(data)+1)/2;
+                console.log(addHeight, "depth");
                 var margin = { top: 40, right: 120, bottom: 20, left: 120 };
                 var width = 960 - margin.right - margin.left;
-                var height = 500 - margin.top - margin.bottom;
+                var height = 50 +(addHeight*50) - margin.top - margin.bottom;
 
                 var i = 0, duration = 750;
                 var tree = d3.layout.tree()
@@ -149,7 +179,7 @@
                     var nodes = tree.nodes(root).reverse(),
                         links = tree.links(nodes);
                     // Normalize for fixed-depth.
-                    nodes.forEach(function (d) { d.y = d.depth * 100; });
+                    nodes.forEach(function (d) { d.y = d.depth * 60; });
                     // Declare the nodes…
                     var node = svg.selectAll("g.node")
                         .data(nodes, function (d) { return d.id || (d.id = ++i); });
@@ -171,7 +201,7 @@
                         })
                         .attr("dy", ".35em")
                         .attr("text-anchor", "middle")
-                        .text(function (d) { return d.name; })
+                        .text(function (d) { return d.naziv; })
                         .style("fill-opacity", 1e-6);
                     // Transition nodes to their new position.
                     //horizontal tree
