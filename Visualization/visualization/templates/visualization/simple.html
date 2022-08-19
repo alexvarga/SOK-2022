@@ -1,14 +1,10 @@
-   {% block style2 %}
+{% block style2 %}
 
     <style>
-        div.scroll {
-        {#background-color: #fed9ff;#}
-            width: 600px;
-            height: 500px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            text-align: center;
-            padding: 20px;
+
+
+        .container {
+            float: left;
         }
 
 
@@ -16,6 +12,7 @@
             fill: #fff;
             stroke: steelblue;
             stroke-width: 3px;
+            cursor: pointer;
         }
 
         .node2 circle text {
@@ -37,9 +34,8 @@
     </style>
 
 
-    {% endblock %}
+{% endblock %}
 
-{% block simpleContent %}
 
     <script>
         function nodeClick(el) {
@@ -52,10 +48,15 @@
     {#        <svg width="500" height="500">#}
     {##}
     {#        </svg>#}
-    <div class="scroll" id="tree">
+{% block simpleContentCanvas %}
+
+{% endblock %}
+
+
+{% block simpleContent %}
+    <div class="scroll container" id="tree">
 
     </div>
-
     <script>
 
 
@@ -78,6 +79,26 @@
 
         };
 
+        var newTotal = 0
+        var total = 0;
+        var countChildren = function (data, num) {
+            console.log(data.children, "children")
+            if (data.children && data.children.length) {
+                var len = data.children.length;
+                num += len;
+                console.log(len, "len")
+                if (len > newTotal) {
+                    newTotal = len
+                }
+                for (var i = 0; i < len; i++) {
+                    countChildren(data.children[i], num);
+                }
+            }
+            return newTotal;
+        }
+        countChildren(data, total);
+
+        console.log(newTotal, "newTotal")
 
         const objectDepth = (o) => Object(o) === o ? 1 + Math.max(-1, ...Object.values(o).map(objectDepth)) : 0;
 
@@ -86,9 +107,10 @@
         function BuildVerticaLTree(treeData, treeContainerDom) {
             var addHeight = (objectDepth(data) + 1) / 2;
             console.log(addHeight, "depth");
-            var margin = {top: 40, right: 120, bottom: 20, left: 120};
-            var width = 600 - margin.right - margin.left;
-            var height = 50 + (addHeight * 55) - margin.top - margin.bottom;
+            var margin = {top: 40, right: 100, bottom: 40, left: 100};
+            var width = 550 +(newTotal+1)*5 + margin.right - margin.left;
+            console.log(width, "width")
+            var height = 50 + (addHeight * 80) - margin.top - margin.bottom;
             console.log(height, "height")
 
             var i = 0, duration = 750;
@@ -113,7 +135,7 @@
                     links = tree.links(nodes);
                 // Normalize for fixed-depth.
                 nodes.forEach(function (d) {
-                    d.y = d.depth * 60;
+                    d.y = d.depth * 53;
                 });
                 // Declare the nodes…
                 var node2 = svg.selectAll("g.node2")

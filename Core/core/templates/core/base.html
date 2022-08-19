@@ -11,7 +11,12 @@
     <title>Home</title>
             {% block style2 %} {% endblock %}
             {% block style %} {% endblock %}
+    <style>
+        .mycontent {
 
+  border-left: 1px dashed #333;
+}
+    </style>
 
 </head>
 
@@ -86,24 +91,39 @@
 </div>
 {#====================================================================#}
 
-<div class="container-fluid">
-
-
     {% block searchBox %} {% endblock %}
 
 
-    <div class="row">
-        <div class="col-3">
+<div class="container">
+<div class="row">
+    <div class="col-5">
+
+
+
+
     {% block simpleContent %} {% endblock %}
 
-    </div>
 
-        <div class="col-9">
+
+    </div>
+    <div class="col-1"></div>
+    <div class="col-6">
+    <div class="mycontent">
+
+
+
     {% block svgArea %} {% endblock %}
 
     {% block content %} {% endblock %}
-        </div>
+    </div>
+    </div>
+
 </div>
+</div>
+
+
+
+
 
 </div>
 
@@ -112,7 +132,6 @@
                 {% block searchResults %}
                 {% endblock %}
             </div>
-
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
