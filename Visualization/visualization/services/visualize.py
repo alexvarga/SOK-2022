@@ -1,10 +1,10 @@
 from core.models import Node, Attribute, Link
+from core.services.Visualization import Visualization
 
-
-class Visualization:
+class Visualization(Visualization):
 
     def __init__(self):
-        self.name="Visual plugin :)"
+        self.name="Visual plugin"
         self.location="visualization"
 
     def create_dict_nodes(self, nodes):
