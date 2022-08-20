@@ -6,6 +6,7 @@
 
 {% block fileinput %}
 
+    {% for item in source_plugins %}
 
 <form action="upload" method="POST" enctype=multipart/form-data>
     {% csrf_token %}
@@ -31,6 +32,6 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
+{% endfor %}
 
 {% endblock %}
