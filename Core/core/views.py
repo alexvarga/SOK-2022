@@ -15,11 +15,6 @@ def index(request):
     return render(request, 'core/index.html', {'source_plugins': plugins, 'form': form, 'vis_plugins': plugins_vis})
 
 
-def test(request):
-    plugins = apps.get_app_config('core').source_plugins
-    return render(request, 'core/test.html', {})
-
-
 def upload(request):
     selected_plugin = 0
     plugins = apps.get_app_config('core').source_plugins
@@ -33,10 +28,6 @@ def upload(request):
             handle_uploaded_file(request.FILES['file'])
 
             plugins[selected_plugin].parse('upload-' + name)  # imam samo jedan source plugin
-
-            # res = "Visualisation visualization </br>"
-            # for item in plugins_vis:
-            #     res += "<a href=/" + item.location + "/layout>" + item.name + "</a>"
 
             return render(request, 'core/vis_list.html', {"vis_plugins": plugins_vis})
 
