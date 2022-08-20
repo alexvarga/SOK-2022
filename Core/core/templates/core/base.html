@@ -9,6 +9,14 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Home</title>
+            {% block style2 %} {% endblock %}
+            {% block style %} {% endblock %}
+    <style>
+        .mycontent {
+
+  border-left: 1px dashed #333;
+}
+    </style>
 
 </head>
 
@@ -73,7 +81,6 @@
 
             {% block fileinput %} {% endblock %}
 
-            {% block style %} {% endblock %}
 
 
         </div>
@@ -82,17 +89,50 @@
         </div>
     </div>
 </div>
+{#====================================================================#}
+
+    {% block searchBox %} {% endblock %}
 
 
-<div class="center">
+<div class="container">
+<div class="row">
+    <div class="col-5">
+
+
+
+
+    {% block simpleContent %} {% endblock %}
+
+
+
+    </div>
+    <div class="col-1"></div>
+    <div class="col-6">
+    <div class="mycontent">
+
+
+
+    {% block svgArea %} {% endblock %}
 
     {% block content %} {% endblock %}
+    </div>
+    </div>
+
 </div>
+</div>
+
+
+
+
+
+</div>
+
 
             <div class="col">
                 {% block searchResults %}
                 {% endblock %}
             </div>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

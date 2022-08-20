@@ -1,0 +1,16 @@
+{% for n, values2 in values.items %}
+    {
+    name: "node_{{ n.id }}",
+    naziv: "{{ n.label }}",
+    children: [
+
+        {% with values=values2 template_name="visualization/tree_recursive.html" %}
+    {% include template_name %}
+{% endwith %}
+    ]
+    },
+{% endfor %}
+
+
+
+        

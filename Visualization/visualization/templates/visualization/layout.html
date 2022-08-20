@@ -17,8 +17,8 @@
     </style>
 
 {% endblock %}
-{% block content %}
 
+{% block searchBox %}
     <form action="searchResults" method="POST" class="form-inline my-2 my-lg-2">
         {% csrf_token %}
     <div class="form-control">
@@ -34,13 +34,19 @@
     </div>
 
     </form>
+{% endblock %}
+    {% block simpleContent %}  {% include "visualization/simple.html" %} {% endblock %}
 
 
+{% block  svgArea %}
     <div class="center">
-        <svg id="force" width="800" height="800">
+        <svg id="force" width="600" height="600">
 
         </svg>
     </div>
+{% endblock %}
+
+{% block content %}
 
     <script>
 
@@ -110,12 +116,12 @@
 
 
         var force = d3.layout.force()
-            .size([500, 500])
+            .size([600, 600])
             .nodes(d3.values(nodes))
             .links(links)
             .on("tick", tick)
-            .linkDistance(300)
-            .charge(-1000)
+            .linkDistance(80)
+            .charge(-500)
             .start();
 
 
@@ -170,10 +176,10 @@
         function show(d) {
             var attributesNo = d.attrs.length;
             var atributi = d.attrs
-            var sirina = 50;
+            var sirina = 30;
 
             atributi.forEach(element => {
-                nova_sirina = (element.naziv.length + element.vrednost.length) * 6.5;
+                nova_sirina = (element.naziv.length + element.vrednost.length) * 8;
                 if (nova_sirina > sirina) {
                     sirina = nova_sirina;
                 }
@@ -191,7 +197,8 @@
 
 
             //Ubacivanje kvadrata
-            d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0).attr('width', sirina).attr('height', visina)
+            d3.select("g#" + d.name).append('rect').attr('x', 0).attr('y', 0)
+                .attr('width', sirina).attr('height', visina)
                 .attr('fill', '#f5ffd0')
                 .attr('stroke', "#3c43a6")
             //Ubacivanje naziva cvora
@@ -200,7 +207,9 @@
                 .attr('font-size', textSize).attr('font-family', 'sans-serif')
                 .attr('fill', 'black').text(d.naziv);
 
-            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize + 5).attr('x2', sirina).attr('y2', textSize + 5)
+            d3.select("g#" + d.name).append('line').attr('x1', 0).attr('y1', textSize + 5)
+                .attr('x2', sirina)
+                .attr('y2', textSize + 5)
                 .attr('stroke', '#3c43a6').attr('stroke-width', 1);
 
             for (var i = 0; i < attributesNo; i++) {
@@ -238,7 +247,6 @@
 
 
     </script>
-
 
 
 
