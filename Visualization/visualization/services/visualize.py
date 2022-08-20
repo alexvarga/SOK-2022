@@ -44,4 +44,17 @@ class Visualization:
             n.save()
         return n
 
+    def getSearchTreeById(self, nodeId):
+        node=Node.objects.filter(pk=nodeId)[0] #todo i ovde try except pls
+        search_tree = {}
+        children_links = Link.objects.filter(parent_node=node)
+        children=[]
+        for child_link in children_links:
+            children.append(child_link.child_node)
+
+        search_tree[node]=self.create_dict_nodes(children)
+        return search_tree
+
+
+
 

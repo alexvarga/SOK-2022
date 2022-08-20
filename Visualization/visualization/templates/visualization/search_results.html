@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+{% block searchResults %}
+    <div class="container">
+    <div>
+        <p>Go back to graph </p>
+        <a class="btn btn-primary btn-sm active" href="layout">Back</a>
+        <p></p>
+    </div>
+
+{% if results %}
+
+    {% for r in results %}
+
+        <div class="card">
+            <h5 class="card-header">Label: {{ r.label }} with the id: {{ r.id }}</h5>
+            <div class="card-body">
+                {% if r.text %}
+                    <h5 class="card-title">Node text</h5>
+                    <p class="card-text">{{ r.text }}</p>
+                {% else %}
+                    <p>This node does not have text content.</p>
+                {% endif %}
+                {% if r.attributes.all %}
+                    <h5 class="card-title">Attributes</h5>
+
+                    {% for a in r.attributes.all %}
+                        <p>{{ a.name }} = {{ a.value }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <a href="search?node={{ r.id }}" class="btn btn-info">Subtree</a>
+            </div>
+        </div>
+    <p></p>
+    {% endfor %}
+    {% else %}
+    <p></p>
+    <p>Search returned no results.</p>
+    {% endif %}
+    </div>
+
+
+
+{% endblock %}
