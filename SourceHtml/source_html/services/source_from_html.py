@@ -39,10 +39,12 @@ class HtmlSource(Source):
             n.save()
 
         if len(root) > 0:
+
             for child in root:
                 linkLabel = root.tag + " + " + child.tag
                 link = Link(label=linkLabel)
                 link.parent_node = n
+
 
                 cn = Node(label=child.tag, complete=child)
                 if child.text != None and "\n" not in child.text:
@@ -54,6 +56,7 @@ class HtmlSource(Source):
                 cn.save()
                 link.child_node = cn
                 link.save()
+
 
         nodes = root
         while True:
@@ -90,4 +93,6 @@ class HtmlSource(Source):
                         link.child_node = cn
                         link.save()
                         newNodes.append(child)
+
             nodes = newNodes
+
