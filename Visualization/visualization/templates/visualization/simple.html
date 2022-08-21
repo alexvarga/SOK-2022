@@ -107,8 +107,8 @@
         function BuildVerticaLTree(treeData, treeContainerDom) {
             var addHeight = (objectDepth(data) + 1) / 2;
             console.log(addHeight, "depth");
-            var margin = {top: 40, right: 100, bottom: 40, left: 100};
-            var width = 550 +(newTotal+1)*5 + margin.right - margin.left;
+            var margin = {top: 40, right: 120, bottom: 20, left: 80};
+            var width = 900  - margin.right - margin.left;
             console.log(width, "width")
             var height = 50 + (addHeight * 80) - margin.top - margin.bottom;
             console.log(height, "height")
@@ -121,8 +121,8 @@
                     return [d.x, d.y];
                 });
             var svg = d3.select(treeContainerDom).append("svg")
-                .attr("width", width + margin.right + margin.left)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("width", width + newTotal*10 + margin.right + margin.left)
+                .attr("height", height + addHeight*10 + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             root = treeData;
