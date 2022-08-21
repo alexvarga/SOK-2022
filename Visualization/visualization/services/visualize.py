@@ -45,7 +45,10 @@ class Visualization(Visualization):
         return n
 
     def getSearchTreeById(self, nodeId):
-        node=Node.objects.filter(pk=nodeId)[0] #todo i ovde try except pls
+        try:
+            node=Node.objects.filter(pk=nodeId)[0]
+        except:
+            return None
         search_tree = {}
         children_links = Link.objects.filter(parent_node=node)
         children=[]

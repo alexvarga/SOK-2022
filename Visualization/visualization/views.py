@@ -26,12 +26,7 @@ def layout(request):
     root = all_nodes[0]
     tree = {}
     tree = a.getTree()
-    print(tree)
 
-    # print(tree[root], "-----------------tree root")
-    # print(tree, "tree---------------")
-    # print(all_nodes)
-    print(root, "root")
 
     return render(request, 'visualization/layout.html', {
         "root": root, "nodes": tree[root], "searchForm": form, "vis_plugins": plugins_vis,
