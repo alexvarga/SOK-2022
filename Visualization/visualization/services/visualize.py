@@ -1,7 +1,7 @@
 from core.models import Node, Attribute, Link
+from core.services.Visualization import Visualization
 
-
-class Visualization:
+class Visualization(Visualization):
 
     def __init__(self):
         self.name="Visual plugin"
@@ -45,7 +45,10 @@ class Visualization:
         return n
 
     def getSearchTreeById(self, nodeId):
-        node=Node.objects.filter(pk=nodeId)[0] #todo i ovde try except pls
+        try:
+            node=Node.objects.filter(pk=nodeId)[0]
+        except:
+            return None
         search_tree = {}
         children_links = Link.objects.filter(parent_node=node)
         children=[]

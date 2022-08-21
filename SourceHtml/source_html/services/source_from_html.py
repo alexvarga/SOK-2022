@@ -1,10 +1,10 @@
+from core.services.Source import Source
 from lxml import html as h
 from core.models import Node, Attribute, Link
-import json
-from django.core import serializers
 
 
-class LoadHtmlSource:
+
+class HtmlSource(Source):
 
     def __init__(self):
         self.name="Html source plugin"
@@ -49,7 +49,7 @@ class LoadHtmlSource:
                 cn = Node(label=child.tag, complete=child)
                 if child.text != None and "\n" not in child.text:
                     cn.text=child.text
-                    print(child.text)
+
                 else:
                     cn.text=""
 
@@ -86,44 +86,13 @@ class LoadHtmlSource:
                         cn = Node(label=child.tag, complete=child)
                         if child.text != None and "\n" not in child.text:
                             cn.text = child.text
-                            print(child.text)
+
                         else:
                             cn.text = ""
                         cn.save()
                         link.child_node = cn
                         link.save()
                         newNodes.append(child)
+
             nodes = newNodes
-
-    def my_to_json(self, all_nodes):
-        stringNodes = self.nodeKeys(all_nodes)
-        links = {}
-
-        for node in stringNodes:
-            links[node] = []
-            n = Link.objects.filter(parent_node=Node.objects.filter(pk=node)[0])
-            for i in n:
-                print(node, " : ", i.child_node.pk)
-                links[node].append(str(i.child_node.pk))
-
-        links2 = links
-
-        for key in links:
-            for key2 in links:
-                if len(links[key]) > 0:
-                    if key in links[key2]:
-                        print("hello", links[key2])
-                        links2[key2].append(links[key])
-
-        links3 = links.copy()
-
-        for key in links:
-            for k in links:
-                if key in links[k]:
-                    links3.pop(key)
-
-        for key in enumerate(links3):
-            print(key)
-
-        return json.dumps(links3)
 

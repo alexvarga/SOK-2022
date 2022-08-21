@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block visualPluginsList %}
+<p></p>
+    <div class="container">
+        <div class="row">
+
+            {% for item in vis_plugins %}
+                <div class="col">
+
+                    <div class="card">
+                        <h5 class="card-header"> {{ forloop.counter }} Plugin: {{ item.name }}</h5>
+                        <div class="card-body">
+
+                            <p>{{ item.name }}</p>
+
+
+                            <a href="/{{ item.location }}/layout" class="btn btn-info">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}

@@ -16,6 +16,8 @@ def index(request):
 
 
 def layout(request):
+    plugins_vis = apps.get_app_config('core').visualization_plugins
+
     form = SearchForm()
     a = Visualization()
     plugins = apps.get_app_config('core').source_plugins
@@ -24,25 +26,21 @@ def layout(request):
     root = all_nodes[0]
     tree = {}
     tree = a.getTree()
-    print(tree)
 
-    # print(tree[root], "-----------------tree root")
-    # print(tree, "tree---------------")
-    # print(all_nodes)
-    print(root, "root")
 
     return render(request, 'visualization/layout.html', {
-        "root": root, "nodes": tree[root], "searchForm": form,
+        "root": root, "nodes": tree[root], "searchForm": form, "vis_plugins": plugins_vis,
     })
 
 
-def search(request):
+def searchSubTree(request):
+    plugins_vis = apps.get_app_config('core').visualization_plugins
+
     try:
         node = request.GET['node']
     except:
         raise Http404
 
-    print(node)
     nodeId = node
     form = SearchForm()
     a = Visualization()
@@ -56,15 +54,14 @@ def search(request):
     tree = {}
     tree = a.getSearchTreeById(nodeId)
 
-    print(root, "root")
-    print(tree[root], "tree[root]")
-
     return render(request, 'visualization/layout.html', {
-        "root": root, "nodes": tree[root], "searchForm": form,
+        "root": root, "nodes": tree[root], "searchForm": form, "vis_plugins": plugins_vis,
     })
 
 
 def searchResults(request):
+    plugins_vis = apps.get_app_config('core').visualization_plugins
+
     searchString = ""
     if request.method == "POST":
         form = SearchForm(request.POST)
@@ -76,26 +73,4 @@ def searchResults(request):
     else:
         results = Node.objects.filter(Q(label=searchString) | Q(text__icontains=searchString))
 
-    print(results)
-
-    return render(request, 'visualization/search_results.html', {"results": results})
-
-
-def simple(request):
-    a = Visualization()
-    plugins = apps.get_app_config('core').source_plugins
-    all_nodes = Node.objects.all()
-    links = Link.objects.all()
-    root = all_nodes[0]
-    tree = {}
-    tree = a.getTree()
-    print(tree)
-
-    # print(tree[root], "-----------------tree root")
-    # print(tree, "tree---------------")
-    # print(all_nodes)
-    print(root, "root")
-
-    return render(request, 'visualization/simple.html', {
-        "root": root, "nodes": tree[root],
-    })
+    return render(request, 'visualization/search_results.html', {"results": results, "vis_plugins": plugins_vis, })

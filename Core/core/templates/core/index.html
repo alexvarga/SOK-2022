@@ -1,11 +1,12 @@
 {% extends "core/base.html" %}
 {% block title %}
-<h1>Hello World </h1>
+<h3 class="text-center">Source plugins</h3>
 {% endblock %}
 
 
 {% block fileinput %}
 
+    {% for item in source_plugins %}
 
 <form action="upload" method="POST" enctype=multipart/form-data>
     {% csrf_token %}
@@ -31,6 +32,6 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
+{% endfor %}
 
 {% endblock %}
